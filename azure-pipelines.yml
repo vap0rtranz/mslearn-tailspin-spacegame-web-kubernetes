@@ -50,7 +50,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: 'openshift-sandbox.justin-obfuscate-stage''
+    environment: 'openshift-sandbox.justin-obfuscate-stage'
     variables:
     - group: Release
     strategy:
@@ -59,3 +59,11 @@ stages:
           steps:
           - download: current
             artifact: manifests
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: 'Container Registry Connection'
+              kubernetesServiceConnection: 'openshift-sandbox-justin-obfuscate-stage-1653482288794'
+              namespace: 'justin-obfuscate-stage'
