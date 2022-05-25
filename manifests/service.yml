@@ -21,3 +21,16 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8080
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: web
+spec:
+  to:
+    kind: Service
+    name: web
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None
